@@ -6,7 +6,7 @@ const DashboardLayout = () => {
     <div>
       <div className="relative min-h-[calc(100vh-160px)] md:flex">
         <Sidebar />
-        <div className="flex-1 md:ml-56">
+        <div className="flex-1 md:ml-72">
           <div className="p-6">
             <Outlet />
           </div>

@@ -38,7 +38,39 @@ const Sidebar = () => {
           {/* nav item */}
           <div className="flex flex-col flex-1 mt-8">
             <nav>
-              <NavLink>Profile</NavLink>
+              <NavLink
+                to="/dashboard"
+                end
+                className={({ isActive }) =>
+                  `flex items-center px-4 py-2 my-5  ${
+                    isActive ? "bg-gray-200 text-gray-900" : "text-gray-500"
+                  }`
+                }
+              >
+                Profile
+              </NavLink>
+              <NavLink
+                to="work-sheet"
+                end
+                className={({ isActive }) =>
+                  `flex items-center px-4 py-2 my-5 ${
+                    isActive ? "bg-gray-200 text-gray-900" : "text-gray-500"
+                  }`
+                }
+              >
+                Work Sheet
+              </NavLink>
+              <NavLink
+                to="payment-history"
+                end
+                className={({ isActive }) =>
+                  `flex items-center px-4 py-2 my-5 ${
+                    isActive ? "bg-gray-200 text-gray-900" : "text-gray-500"
+                  }`
+                }
+              >
+                Payment History
+              </NavLink>
             </nav>
           </div>
         </div>

@@ -55,10 +55,27 @@ const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, googleProvider);
   };
 
+  // save user
+  const saveUser = async (user) => {
+    const currentUser = {
+      email: user?.email,
+      role: "Employee",
+      verified: false,
+    };
+    const { data } = await axios.put(
+      `${import.meta.env.VITE_API_URL}/user`,
+      currentUser
+    );
+    return data;
+  };
+
   //user observer
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      if (currentUser) {
+        saveUser(currentUser);
+      }
       console.log("CurrentUser:", currentUser);
       setLoading(false);
     });
@@ -78,6 +95,7 @@ const AuthProvider = ({ children }) => {
     updateUserProfile,
     googleLogin,
     loading,
+    setLoading,
   };
 
   return (

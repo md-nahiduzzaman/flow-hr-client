@@ -6,8 +6,16 @@ import { useState } from "react";
 
 const Register = () => {
   const [registerError, setRegisterError] = useState("");
-  const { user, createUser, updateUserProfile, setUser, googleLogin } =
-    useAuth();
+  const {
+    user,
+    createUser,
+    updateUserProfile,
+    setUser,
+    googleLogin,
+    loading,
+    setLoading,
+  } = useAuth();
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -16,18 +24,26 @@ const Register = () => {
     e.preventDefault();
     const form = e.target;
     const name = form.fullName.value;
-    const image = form.image.value;
+
+    const role = form.role.value;
+    const bank_account_no = form.bank_account_no.value;
+    const salary = form.salary.value;
+    const designation = form.designation.value;
+    const verified = false;
+
     const email = form.email.value;
-    const pass = form.password.value;
-    console.log({ name, image, email, pass });
+    const password = form.password.value;
+    const image = form.image.files[0];
+    const formData = new FormData();
+    formData.append("image", image);
 
     // reset error
     setRegisterError("");
 
-    if (pass.length < 6) {
+    if (password.length < 6) {
       setRegisterError("Password should be at least 6 characters");
       return;
-    } else if (!/[A-Z]/.test(pass)) {
+    } else if (!/[A-Z]/.test(password)) {
       setRegisterError(
         "Your password should have at least one upper case characters."
       );
@@ -35,24 +51,40 @@ const Register = () => {
     }
 
     try {
-      const result = await createUser(email, pass);
-
-      await updateUserProfile(name, image, email);
-      setUser({ ...user, email, photoURL: image, displayName: name });
-
+      setLoading(true);
+      // img upload
       const { data } = await axios.post(
-        `${import.meta.env.VITE_API_URL}/jwt`,
-        {
-          email: result?.user?.email,
-        },
-        { withCredentials: true }
+        `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_IMGBB_API_KEY
+        }`,
+        formData
       );
-      console.log(data);
+      console.log(data.data.display_url);
+
+      // registration
+      const result = await createUser(email, password);
       console.log(result);
 
-      navigate(location?.state || "/");
+      // update profile
+      await updateUserProfile(name, data.data.display_url);
 
+      navigate(location?.state || "/");
       toast.success("Sign Up Successful");
+
+      // save user data
+      const photo = data.data.display_url;
+      const userData = {
+        name,
+        email,
+        verified,
+        role,
+        bank_account_no,
+        salary,
+        designation,
+        photo,
+      };
+
+      await axios.put(`${import.meta.env.VITE_API_URL}/user`, userData);
     } catch (err) {
       console.log(err);
       toast.error(err?.message);
@@ -63,14 +95,15 @@ const Register = () => {
   const handleGoogleSignIn = async () => {
     try {
       const result = await googleLogin();
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_API_URL}/jwt`,
-        {
-          email: result?.user?.email,
-        },
-        { withCredentials: true }
-      );
-      console.log(data);
+      // const { data } = await axios.post(
+      //   `${import.meta.env.VITE_API_URL}/jwt`,
+      //   {
+      //     email: result?.user?.email,
+      //   },
+      //   { withCredentials: true }
+      // );
+
+      console.log(result);
       toast.success("Sign In Successful");
       navigate(location?.state || "/");
     } catch (err) {
@@ -90,6 +123,7 @@ const Register = () => {
           </div>
 
           <form onSubmit={handleSignUp} className="mt-6 ">
+            {/* name */}
             <div className="mb-3">
               <label className="form-control w-full">Full Name</label>
               <input
@@ -100,16 +134,71 @@ const Register = () => {
                 className="input input-bordered  block w-full px-4 py-2 mt-2"
               />
             </div>
+            {/* role */}
             <div className="mb-3">
-              <label className="form-control w-full">Img URL</label>
+              <label className="form-control w-full">User Role</label>
+              {/* <input
+                type="text"
+                placeholder="Full Name"
+                name="fullName"
+                required
+                className="input input-bordered  block w-full px-4 py-2 mt-2"
+              /> */}
+              <select
+                name="role"
+                required
+                className="input input-bordered  block w-full px-4 py-2 mt-2"
+              >
+                <option>Employee</option>
+                <option>HR</option>
+              </select>
+            </div>
+            {/* Bank */}
+            <div className="mb-3">
+              <label className="form-control w-full">Bank Account Number</label>
               <input
                 type="text"
-                name="image"
-                placeholder="Image URL"
+                placeholder="Bank Account Number"
+                name="bank_account_no"
                 required
                 className="input input-bordered  block w-full px-4 py-2 mt-2"
               />
             </div>
+            {/* Salary */}
+            <div className="mb-3">
+              <label className="form-control w-full">Salary</label>
+              <input
+                type="number"
+                placeholder="Salary"
+                name="salary"
+                required
+                className="input input-bordered  block w-full px-4 py-2 mt-2"
+              />
+            </div>
+            {/* Designation */}
+            <div className="mb-3">
+              <label className="form-control w-full">Designation</label>
+              <input
+                type="text"
+                placeholder="Designation"
+                name="designation"
+                required
+                className="input input-bordered  block w-full px-4 py-2 mt-2"
+              />
+            </div>
+            {/* image */}
+            <div className="mb-3">
+              <label className="form-control w-full">Select Image</label>
+              <input
+                type="file"
+                name="image"
+                id="image"
+                accept="image/*"
+                required
+                className="input input-bordered  block w-full px-4 py-2 mt-2"
+              />
+            </div>
+            {/* email */}
             <div className="mb-3">
               <label className="form-control w-full">Email</label>
               <input
