@@ -38,6 +38,7 @@ const Sidebar = () => {
           {/* nav item */}
           <div className="flex flex-col flex-1 mt-8">
             <nav>
+              {/* employee */}
               <NavLink
                 to="/dashboard"
                 end
@@ -70,6 +71,52 @@ const Sidebar = () => {
                 }
               >
                 Payment History
+              </NavLink>
+              {/* hr */}
+              <NavLink
+                to="employee-list"
+                end
+                className={({ isActive }) =>
+                  `flex items-center px-4 py-2 my-5 ${
+                    isActive ? "bg-gray-200 text-gray-900" : "text-gray-500"
+                  }`
+                }
+              >
+                Employee List
+              </NavLink>
+              <NavLink
+                to="progress"
+                end
+                className={({ isActive }) =>
+                  `flex items-center px-4 py-2 my-5 ${
+                    isActive ? "bg-gray-200 text-gray-900" : "text-gray-500"
+                  }`
+                }
+              >
+                Progress
+              </NavLink>
+              {/* admin */}
+              <NavLink
+                to="all-employee-list"
+                end
+                className={({ isActive }) =>
+                  `flex items-center px-4 py-2 my-5 ${
+                    isActive ? "bg-gray-200 text-gray-900" : "text-gray-500"
+                  }`
+                }
+              >
+                All Employee
+              </NavLink>
+              <NavLink
+                to="message"
+                end
+                className={({ isActive }) =>
+                  `flex items-center px-4 py-2 my-5 ${
+                    isActive ? "bg-gray-200 text-gray-900" : "text-gray-500"
+                  }`
+                }
+              >
+                Message
               </NavLink>
             </nav>
           </div>
