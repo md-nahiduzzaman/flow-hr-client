@@ -1,4 +1,20 @@
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+
 const Message = () => {
+  // get messages
+  const {
+    data: messages = [],
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["messages"],
+    queryFn: async () => {
+      const { data } = await axios(`${import.meta.env.VITE_API_URL}/messages`);
+      return data;
+    },
+  });
+
   return (
     <div>
       <h1>this is message</h1>
@@ -15,13 +31,18 @@ const Message = () => {
             </thead>
             <tbody>
               {/* row 1 */}
-              <tr>
-                <td>Yahya</td>
-                <td>123@t.com</td>
-                <td>
-                  <button className="btn btn-ghost btn-xs">Show Message</button>
-                </td>
-              </tr>
+              {messages.map((message) => (
+                <tr key={message._id}>
+                  <td>{message?.name}</td>
+                  <td>{message?.email}</td>
+                  <td>
+                    {/* <button className="btn btn-ghost btn-xs">
+                      Show Message
+                    </button> */}
+                    {message?.message}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
