@@ -88,7 +88,7 @@ const WorkSheet = () => {
                 <tr key={work?._id}>
                   <td>{work?.task}</td>
                   <td>{work?.hours}</td>
-                  <td>{work?.date}</td>
+                  <td>{new Date(work?.date).toLocaleDateString()}</td>
                 </tr>
               ))}
             </tbody>
