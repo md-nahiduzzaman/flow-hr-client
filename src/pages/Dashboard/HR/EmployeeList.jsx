@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import LoadingSpinner from "../../../components/LoadingSpinner";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const EmployeeList = () => {
   // months
@@ -182,7 +183,9 @@ const EmployeeList = () => {
                     </dialog>
                   </td>
                   <td>
-                    <button className="btn btn-ghost btn-xs">Details</button>
+                    <Link to={`/dashboard/user-details/${user?.email}`}>
+                      <button className="btn btn-xs">Details</button>
+                    </Link>
                   </td>
                 </tr>
               ))}

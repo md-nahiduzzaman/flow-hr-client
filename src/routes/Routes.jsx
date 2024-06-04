@@ -12,6 +12,7 @@ import EmployeeList from "../pages/Dashboard/HR/EmployeeList";
 import Progress from "../pages/Dashboard/HR/Progress";
 import AllEmployeeList from "../pages/Dashboard/Admin/AllEmployeeList";
 import Message from "../pages/Dashboard/Admin/Message";
+import EmployeeDetails from "../pages/Dashboard/HR/EmployeeDetails";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,16 @@ const router = createBrowserRouter([
             path: "employee-list",
             element: <EmployeeList></EmployeeList>,
           },
+
+          {
+            path: "user-details/:email",
+            element: <EmployeeDetails></EmployeeDetails>,
+            // loader: ({ params }) =>
+            //   fetch(
+            //     `${import.meta.env.VITE_API_URL}/user-details/${params.email}`
+            //   ),
+          },
+
           {
             path: "progress",
             element: <Progress></Progress>,
