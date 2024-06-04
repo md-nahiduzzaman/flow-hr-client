@@ -1,19 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import LoadingSpinner from "../../../components/LoadingSpinner";
 
 const Message = () => {
   // get messages
-  const {
-    data: messages = [],
-    isLoading,
-    refetch,
-  } = useQuery({
+  const { data: messages = [], isLoading } = useQuery({
     queryKey: ["messages"],
     queryFn: async () => {
       const { data } = await axios(`${import.meta.env.VITE_API_URL}/messages`);
       return data;
     },
   });
+
+  if (isLoading) return <LoadingSpinner></LoadingSpinner>;
 
   return (
     <div>
