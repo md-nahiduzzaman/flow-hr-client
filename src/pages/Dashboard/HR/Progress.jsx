@@ -1,4 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { useState } from "react";
+import LoadingSpinner from "../../../components/LoadingSpinner";
 
 const Progress = () => {
   const [filter, setFilter] = useState("");
@@ -8,6 +11,22 @@ const Progress = () => {
     setFilter("");
     setSort("");
   };
+
+  // get user
+  const {
+    data: works = [],
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["all-works"],
+    queryFn: async () => {
+      const { data } = await axios(`${import.meta.env.VITE_API_URL}/all-works`);
+      return data;
+    },
+  });
+  console.log(works);
+
+  if (isLoading) return <LoadingSpinner></LoadingSpinner>;
 
   return (
     <div>
