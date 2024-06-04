@@ -4,27 +4,32 @@ import { useState } from "react";
 import LoadingSpinner from "../../../components/LoadingSpinner";
 
 const Progress = () => {
-  const [filter, setFilter] = useState("");
-  const [sort, setSort] = useState("");
+  const [name, setName] = useState("");
+  const [month, setMonth] = useState("");
+
+  console.log(name, month);
 
   const handleReset = () => {
-    setFilter("");
-    setSort("");
+    setName("");
+    setMonth("");
   };
 
-  // get user
-  const {
-    data: works = [],
-    isLoading,
-    refetch,
-  } = useQuery({
-    queryKey: ["all-works"],
+  // get works
+  const { data: works = [], isLoading } = useQuery({
+    queryKey: ["all-works", name, month],
     queryFn: async () => {
-      const { data } = await axios(`${import.meta.env.VITE_API_URL}/all-works`);
+      const { data } = await axios(
+        `${import.meta.env.VITE_API_URL}/all-works?`,
+        { params: { name, month } }
+      );
       return data;
     },
   });
   console.log(works);
+
+  // remove duplicate
+  const uniqueMonths = [...new Set(works.map((work) => work.month))];
+  const uniqueNames = [...new Set(works.map((work) => work.name))];
 
   if (isLoading) return <LoadingSpinner></LoadingSpinner>;
 
@@ -40,17 +45,19 @@ const Progress = () => {
             <div>
               <select
                 onChange={(e) => {
-                  setFilter(e.target.value);
+                  setName(e.target.value);
                 }}
-                value={filter}
+                value={name}
                 name="name"
                 id="name"
                 className="input input-bordered w-full max-w-xs"
               >
                 <option value="">Name</option>
-                <option value="Easy">a</option>
-                <option value="Medium">b</option>
-                <option value="Hard">c</option>
+                {uniqueNames.map((name, index) => (
+                  <option key={index} value={name}>
+                    {name}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -58,24 +65,27 @@ const Progress = () => {
             <div>
               <select
                 onChange={(e) => {
-                  setSort(e.target.value);
+                  setMonth(e.target.value);
                 }}
-                value={sort}
+                value={month}
                 name="month"
                 id="month"
                 className="input input-bordered w-full max-w-xs"
               >
                 <option value="">Month</option>
-                <option value="Easy">jan</option>
-                <option value="Medium">feb</option>
-                <option value="Hard">mar</option>
+                {uniqueMonths.map((month, index) => (
+                  <option
+                    key={index}
+                    // value={new Date(work.date).getMonth() + 1}
+                    value={month}
+                  >
+                    {month}
+                  </option>
+                ))}
               </select>
             </div>
             <div>
-              <button
-                className="btn bg-[#59c6bc] text-white hover:bg-[#368880]"
-                onClick={handleReset}
-              >
+              <button className="btn" onClick={handleReset}>
                 Reset
               </button>
             </div>
@@ -95,11 +105,17 @@ const Progress = () => {
             </thead>
             <tbody>
               {/* row 1 */}
-              <tr>
-                <td>Yahya</td>
-                <td>January</td>
-                <td>Sales</td>
-              </tr>
+              {works.map((work) => {
+                const date = new Date(work.date);
+                const month = date.toLocaleString("en-US", { month: "long" });
+                return (
+                  <tr key={work._id}>
+                    <td>{work.name}</td>
+                    <td>{month}</td>
+                    <td>{work.task}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -109,3 +125,6 @@ const Progress = () => {
 };
 
 export default Progress;
+
+// work.date.toLocaleString("en-US", { month: "long" });
+// console.log(month);

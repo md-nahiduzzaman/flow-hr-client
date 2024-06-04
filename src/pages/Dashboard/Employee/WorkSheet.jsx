@@ -33,6 +33,11 @@ const WorkSheet = () => {
     const task = form.task.value;
     const hours = parseInt(form.hours_worked.value);
     const date = startDate;
+    // const month = new Date(startDate).getMonth() + 1;
+
+    // const date = new Date(work.date);
+    const month = date.toLocaleString("en-US", { month: "long" });
+
     const name = user?.displayName;
     const email = user?.email;
     const photo = user?.photoURL;
@@ -41,6 +46,7 @@ const WorkSheet = () => {
       task,
       hours,
       date,
+      month,
       name,
       email,
       photo,
