@@ -5,8 +5,22 @@ import axios from "axios";
 import LoadingSpinner from "../../../components/LoadingSpinner";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import PaymentModal from "../../../components/Modal/PaymentModal";
+import PayModal from "../../../components/Modal/PayModal";
 
 const EmployeeList = () => {
+  // const [isOpen, setIsOpen] = useState(false);
+
+  // const closeModal = () => {
+  //   setIsOpen(false);
+  // };
+
+  let [isOpen, setIsOpen] = useState(true);
+
+  // function close() {
+  //   setIsOpen(false);
+  // }
+
   // months
   const months = [
     "January",
@@ -58,15 +72,15 @@ const EmployeeList = () => {
     }
   };
 
-  // payment submit
-  const handlePaymentSubmit = async (e, id, salary) => {
-    e.preventDefault();
-    const form = e.target;
-    const month = form.month.value;
-    const year = form.year.value;
+  // // payment submit
+  // const handlePaymentSubmit = async (e, id, salary) => {
+  //   e.preventDefault();
+  //   const form = e.target;
+  //   const month = form.month.value;
+  //   const year = form.year.value;
 
-    console.log(month, year);
-  };
+  //   console.log(month, year);
+  // };
 
   if (isLoading) return <LoadingSpinner></LoadingSpinner>;
 
@@ -117,70 +131,31 @@ const EmployeeList = () => {
                   <td>
                     {/* modal */}
                     {/* Open the modal using document.getElementById('ID').showModal() method */}
-                    <button
+                    {/* <button
+                      onClick={() => setIsOpen(true)}
                       className="btn btn-xs"
                       disabled={user?.verified}
-                      onClick={() =>
-                        document
-                          .getElementById(`my_modal_${user?._id}`)
-                          .showModal()
-                      }
                     >
-                      Pay
-                    </button>
-                    <dialog id={`my_modal_${user?._id}`} className="modal">
-                      <div className="modal-box flex flex-col items-center">
-                        <h3 className="font-bold text-lg">
-                          User Name:{user?.name}
-                        </h3>
-                        <p className="py-4">User Salary: {user?.salary}</p>
-                        <div className="modal-action">
-                          <form
-                            onSubmit={(e) =>
-                              handlePaymentSubmit(e, user?._id, user?.salary)
-                            }
-                            method="dialog"
-                          >
-                            <div className="col-span-2 w-full">
-                              <select
-                                name="month"
-                                id="month"
-                                className="input input-bordered w-full max-w-xs"
-                              >
-                                {months.map((month, index) => (
-                                  <option
-                                    key={index}
-                                    value={month.toLocaleLowerCase()}
-                                  >
-                                    {month}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-                            <div className="col-span-2 w-full">
-                              <label className="form-control w-full">
-                                <div className="label">
-                                  <span className="label-text">Year</span>
-                                </div>
-                                <input
-                                  type="number"
-                                  name="year"
-                                  className="input input-bordered w-full"
-                                  required
-                                />
-                              </label>
-                            </div>
-                            {/* if there is a button in form, it will close the modal */}
-                            <button
-                              // onClick={() => document.closeModal()}
-                              className="btn mt-5 w-full"
-                            >
-                              Submit
-                            </button>
-                          </form>
-                        </div>
-                      </div>
-                    </dialog>
+                      Paysdsd
+                    </button> */}
+                    {/* <PaymentModal
+                      isOpen={isOpen}
+                      refetch={refetch}
+                      closeModal={closeModal}
+                      paymentInfo={{
+                        name: user?.name,
+                        email: user?.email,
+                        salary: user?.salary,
+                      }}
+                    /> */}
+
+                    <PayModal
+                      refetch={refetch}
+                      close={close}
+                      paymentInfo={{
+                        user,
+                      }}
+                    ></PayModal>
                   </td>
                   <td>
                     <Link to={`/dashboard/user-details/${user?.email}`}>
