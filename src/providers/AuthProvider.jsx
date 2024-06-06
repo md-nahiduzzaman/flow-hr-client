@@ -43,11 +43,6 @@ const AuthProvider = ({ children }) => {
   };
 
   // logout user
-  // const logout = async () => {
-  //   setLoading(true);
-  //   toast.success("Successfully Logout!");
-  //   return signOut(auth);
-  // };
   const logout = async () => {
     setLoading(true);
     // setUser(null);

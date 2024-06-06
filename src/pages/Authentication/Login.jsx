@@ -3,6 +3,7 @@ import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 const Login = () => {
   const [registerError, setRegisterError] = useState("");
@@ -32,6 +33,19 @@ const Login = () => {
     }
 
     try {
+      // get block users
+      const { data: blockUsers } = await axios(
+        `${import.meta.env.VITE_API_URL}/block-user/${email}`
+      );
+
+      // Check if user is blocked
+      if (blockUsers.includes(email)) {
+        setRegisterError("Your account is blocked.");
+        toast.error("Your account is blocked.");
+        return;
+      }
+
+      // normal user
       const result = await signInUser(email, pass);
       console.log(result.user);
       const { data } = await axios.post(
@@ -42,7 +56,7 @@ const Login = () => {
         { withCredentials: true }
       );
       console.log(data);
-      // console.log(result);
+
       navigate(location?.state || "/");
       toast.success("Sign In Successful");
     } catch (err) {
@@ -54,7 +68,15 @@ const Login = () => {
   // google sign in
   const handleGoogleSignIn = async () => {
     try {
-      await googleLogin();
+      const result = await googleLogin();
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/jwt`,
+        {
+          email: result?.user?.email,
+        },
+        { withCredentials: true }
+      );
+      console.log(data);
       toast.success("Sign In Successful");
       navigate(location?.state || "/");
     } catch (err) {

@@ -64,11 +64,18 @@ const AllEmployeeList = () => {
   };
 
   // fire
-  const handleMakeFire = async (id) => {
+  const handleMakeFire = async (id, email) => {
     const status = "fired";
+
     const roleData = {
       status,
     };
+
+    const emailData = {
+      email,
+    };
+
+    console.log(emailData);
 
     console.log(roleData, id);
     try {
@@ -77,6 +84,17 @@ const AllEmployeeList = () => {
         roleData
       );
       console.log("Status updated:", response.data);
+      refetch();
+    } catch (err) {
+      console.log(err);
+    }
+
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_API_URL}/block-user`,
+        emailData
+      );
+      console.log("block email", response.data);
       refetch();
     } catch (err) {
       console.log(err);
@@ -189,7 +207,7 @@ const AllEmployeeList = () => {
                       "Fired"
                     ) : (
                       <button
-                        onClick={() => handleMakeFire(user._id)}
+                        onClick={() => handleMakeFire(user._id, user.email)}
                         className="btn btn-ghost btn-xs"
                         hidden={user?.status === "working"}
                       >
