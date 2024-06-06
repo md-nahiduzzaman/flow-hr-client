@@ -27,7 +27,7 @@ const Register = () => {
 
     const role = form.role.value;
     const bank_account_no = form.bank_account_no.value;
-    const salary = form.salary.value;
+    const salary = parseInt(form.salary.value);
     const designation = form.designation.value;
     const verified = false;
 
@@ -46,6 +46,11 @@ const Register = () => {
     } else if (!/[A-Z]/.test(password)) {
       setRegisterError(
         "Your password should have at least one upper case characters."
+      );
+      return;
+    } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      setRegisterError(
+        "Your password should have at least one special character."
       );
       return;
     }
@@ -156,7 +161,7 @@ const Register = () => {
             <div className="mb-3">
               <label className="form-control w-full">Bank Account Number</label>
               <input
-                type="text"
+                type="number"
                 placeholder="Bank Account Number"
                 name="bank_account_no"
                 required

@@ -1,6 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import LoadingSpinner from "../../../components/LoadingSpinner";
+import SalaryModal from "../../../components/Modal/SalaryModal";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 const AllEmployeeList = () => {
   const {
@@ -21,12 +24,17 @@ const AllEmployeeList = () => {
   const handleSalarySubmit = async (e, id, oldSalary) => {
     e.preventDefault();
     const form = e.target;
-    const salary = form.newSalary.value;
+    const salary = parseInt(form.newSalary.value);
     const salaryData = {
       salary,
     };
     console.log(id);
     console.log(salaryData);
+
+    if (oldSalary > salary) {
+      toast.error("Only allow increasing of the salary");
+      return;
+    }
 
     try {
       const response = await axios.put(
@@ -143,6 +151,7 @@ const AllEmployeeList = () => {
                     >
                       Change salary
                     </button>
+
                     <dialog id={`my_modal_${user?._id}`} className="modal">
                       <div className="modal-box flex flex-col items-center">
                         <h3 className="font-bold text-lg">{user?.name}</h3>
@@ -178,6 +187,7 @@ const AllEmployeeList = () => {
                         </div>
                       </div>
                     </dialog>
+
                     {/* HR */}
                   </td>
                   <td>

@@ -8,6 +8,7 @@ import "./CheckoutForm.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 const CheckoutForm = ({ close, paymentInfo, refetch }) => {
   const stripe = useStripe();
@@ -90,6 +91,25 @@ const CheckoutForm = ({ close, paymentInfo, refetch }) => {
       setCardError("");
     }
 
+    // Check for existing payments
+    const existingPayments = await axios.get(
+      `${import.meta.env.VITE_API_URL}/payment-details/${
+        paymentInfo?.user?.email
+      }`
+    );
+
+    console.log(existingPayments);
+
+    // find duplicate
+    const duplicatePayment = existingPayments.data.find(
+      (payment) => payment.month === month && payment.year === year
+    );
+
+    if (duplicatePayment) {
+      toast.error("Payment for this month and year already exists.");
+      return;
+    }
+
     // confirm payment
     const { error: confirmError, paymentIntent } =
       await stripe.confirmCardPayment(clientSecret, {
@@ -105,6 +125,7 @@ const CheckoutForm = ({ close, paymentInfo, refetch }) => {
     if (confirmError) {
       console.log(confirmError);
       setCardError(confirmError);
+
       return;
     }
 
@@ -127,6 +148,7 @@ const CheckoutForm = ({ close, paymentInfo, refetch }) => {
         );
         console.log("data saved:", response.data);
         refetch();
+        toast.success("Payment Successful");
         close();
       } catch (err) {
         console.log(err);
