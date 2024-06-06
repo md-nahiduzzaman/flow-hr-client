@@ -1,9 +1,16 @@
 import { useState } from "react";
 import { IoMenu } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
+import useRole from "../../../hooks/useRole";
+import MenuItem from "./Menu/MenuItem";
+import HrMenu from "./Menu/HrMenu";
+import EmployeeMenu from "./Menu/EmployeeMenu";
+import AdminMenu from "./Menu/AdminMenu";
 
 const Sidebar = () => {
   const [isActive, setActive] = useState(false);
+  const [role] = useRole();
+  console.log(role);
 
   // responsive handler
   const handleToggle = () => {
@@ -38,86 +45,12 @@ const Sidebar = () => {
           {/* nav item */}
           <div className="flex flex-col flex-1 mt-8">
             <nav>
-              {/* employee */}
-              <NavLink
-                to="/dashboard"
-                end
-                className={({ isActive }) =>
-                  `flex items-center px-4 py-2 my-5  ${
-                    isActive ? "bg-gray-200 text-gray-900" : "text-gray-500"
-                  }`
-                }
-              >
-                Profile
-              </NavLink>
-              <NavLink
-                to="work-sheet"
-                end
-                className={({ isActive }) =>
-                  `flex items-center px-4 py-2 my-5 ${
-                    isActive ? "bg-gray-200 text-gray-900" : "text-gray-500"
-                  }`
-                }
-              >
-                Work Sheet
-              </NavLink>
-              <NavLink
-                to="payment-history"
-                end
-                className={({ isActive }) =>
-                  `flex items-center px-4 py-2 my-5 ${
-                    isActive ? "bg-gray-200 text-gray-900" : "text-gray-500"
-                  }`
-                }
-              >
-                Payment History
-              </NavLink>
-              {/* hr */}
-              <NavLink
-                to="employee-list"
-                end
-                className={({ isActive }) =>
-                  `flex items-center px-4 py-2 my-5 ${
-                    isActive ? "bg-gray-200 text-gray-900" : "text-gray-500"
-                  }`
-                }
-              >
-                Employee List
-              </NavLink>
-              <NavLink
-                to="progress"
-                end
-                className={({ isActive }) =>
-                  `flex items-center px-4 py-2 my-5 ${
-                    isActive ? "bg-gray-200 text-gray-900" : "text-gray-500"
-                  }`
-                }
-              >
-                Progress
-              </NavLink>
-              {/* admin */}
-              <NavLink
-                to="all-employee-list"
-                end
-                className={({ isActive }) =>
-                  `flex items-center px-4 py-2 my-5 ${
-                    isActive ? "bg-gray-200 text-gray-900" : "text-gray-500"
-                  }`
-                }
-              >
-                All Employee
-              </NavLink>
-              <NavLink
-                to="message"
-                end
-                className={({ isActive }) =>
-                  `flex items-center px-4 py-2 my-5 ${
-                    isActive ? "bg-gray-200 text-gray-900" : "text-gray-500"
-                  }`
-                }
-              >
-                Message
-              </NavLink>
+              <MenuItem label="Profile" address="/dashboard"></MenuItem>
+
+              {/* condition */}
+              {role === "Employee" && <EmployeeMenu></EmployeeMenu>}
+              {role === "HR" && <HrMenu></HrMenu>}
+              {role === "Admin" && <AdminMenu></AdminMenu>}
             </nav>
           </div>
         </div>

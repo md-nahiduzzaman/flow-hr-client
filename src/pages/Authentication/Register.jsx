@@ -3,6 +3,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import { useState } from "react";
+import { TbFidgetSpinner } from "react-icons/tb";
+import { FaSpinner } from "react-icons/fa";
 
 const Register = () => {
   const [registerError, setRegisterError] = useState("");
@@ -230,8 +232,16 @@ const Register = () => {
             {registerError && <p className="text-red-700">{registerError}</p>}
 
             <div className="mt-6">
-              <button className="btn w-full bg-[#59c6bc] text-white hover:bg-[#368880]">
-                Register
+              <button
+                disabled={loading}
+                className="btn w-full bg-[#59c6bc] text-white hover:bg-[#368880]"
+              >
+                {" "}
+                {loading ? (
+                  <FaSpinner className="animate-spin m-auto" />
+                ) : (
+                  "Register"
+                )}
               </button>
             </div>
           </form>

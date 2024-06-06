@@ -62,18 +62,40 @@ const AuthProvider = ({ children }) => {
   };
 
   // save user
+  // const saveUser = async (user) => {
+  //   const currentUser = {
+  //     email: user?.email,
+  //     name: user?.displayName,
+  //     role: "Employee",
+  //     verified: false,
+  //   };
+  //   const { data } = await axios.put(
+  //     `${import.meta.env.VITE_API_URL}/user`,
+  //     currentUser
+  //   );
+  //   return data;
+  // };
+
   const saveUser = async (user) => {
-    const currentUser = {
-      email: user?.email,
-      name: user?.displayName,
-      role: "Employee",
-      verified: false,
-    };
-    const { data } = await axios.put(
-      `${import.meta.env.VITE_API_URL}/user`,
-      currentUser
+    const { data: existingUser } = await axios.get(
+      `${import.meta.env.VITE_API_URL}/user/${user.email}`
     );
-    return data;
+
+    if (!existingUser) {
+      const newUser = {
+        email: user.email,
+        name: user.displayName,
+        role: "Employee",
+        verified: false,
+      };
+
+      const { data } = await axios.put(
+        `${import.meta.env.VITE_API_URL}/user`,
+        newUser
+      );
+
+      return data;
+    }
   };
 
   //user observer

@@ -3,10 +3,13 @@ import { Link } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import axios from "axios";
 import LoadingSpinner from "../../../components/LoadingSpinner";
+import useRole from "../../../hooks/useRole";
 
 const Profile = () => {
   const { user } = useAuth();
   console.log(user);
+  const [role] = useRole();
+  console.log(role);
 
   // get user
   const { data: userInfo = [], isLoading } = useQuery({
@@ -38,7 +41,7 @@ const Profile = () => {
             Name: {user?.displayName || userInfo?.name}
           </h2>
           <h2 className="mt-2 text-sm text-center font-semibold text-gray-600 dark:text-white md:mt-0">
-            {userInfo?.designation}
+            {role}
           </h2>
 
           <div className="mt-9">

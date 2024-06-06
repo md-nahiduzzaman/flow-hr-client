@@ -2,8 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { count } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import useAuth from "../../../hooks/useAuth";
 
 const PaymentHistory = () => {
+  const { user } = useAuth();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [count, setCount] = useState(0);
@@ -20,7 +22,9 @@ const PaymentHistory = () => {
       const { data } = await axios(
         `${
           import.meta.env.VITE_API_URL
-        }/payments?page=${currentPage}&size=${itemsPerPage}`
+        }/payments?page=${currentPage}&size=${itemsPerPage}&email=${
+          user?.email
+        }`
       );
       return data;
     },
@@ -50,7 +54,6 @@ const PaymentHistory = () => {
 
   return (
     <div>
-      <h1>this is payment history</h1>
       <div>
         <div className="overflow-x-auto">
           <table className="table">
