@@ -113,7 +113,7 @@ const CheckoutForm = ({ close, paymentInfo, refetch }) => {
       const paymentInfoData = {
         name: paymentInfo?.user?.name,
         email: paymentInfo?.user?.email,
-        salary: paymentInfo?.user?.salary,
+        amount: paymentInfo?.user?.salary,
         month,
         year,
         transactionId: paymentIntent.id,
