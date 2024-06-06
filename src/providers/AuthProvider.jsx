@@ -43,8 +43,19 @@ const AuthProvider = ({ children }) => {
   };
 
   // logout user
+  // const logout = async () => {
+  //   setLoading(true);
+  //   toast.success("Successfully Logout!");
+  //   return signOut(auth);
+  // };
   const logout = async () => {
     setLoading(true);
+    // setUser(null);
+    const { data } = await axios(`${import.meta.env.VITE_API_URL}/logout`, {
+      withCredentials: true,
+    });
+    console.log(data);
+    // setUser(null);
     toast.success("Successfully Logout!");
     return signOut(auth);
   };

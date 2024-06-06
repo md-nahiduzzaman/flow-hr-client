@@ -44,7 +44,7 @@ export default function PayModal({ paymentInfo, refetch }) {
         // onClick={open}
         onClick={() => setIsOpen(true)}
         className="btn btn-xs"
-        disabled={paymentInfo?.user?.verified}
+        disabled={!paymentInfo?.user?.verified}
       >
         Pay
       </Button>

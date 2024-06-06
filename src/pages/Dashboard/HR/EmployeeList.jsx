@@ -114,14 +114,14 @@ const EmployeeList = () => {
                         onClick={() => toggleVerified(user?._id)}
                         className="btn btn-ghost btn-xs"
                       >
-                        <FaXmark />
+                        <FaCheck />
                       </button>
                     ) : (
                       <button
                         onClick={() => toggleVerified(user?._id)}
                         className="btn btn-ghost btn-xs"
                       >
-                        <FaCheck />
+                        <FaXmark />
                       </button>
                     )}
                   </td>
