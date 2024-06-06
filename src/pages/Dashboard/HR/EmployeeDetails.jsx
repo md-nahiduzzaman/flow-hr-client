@@ -2,20 +2,18 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useLoaderData, useParams } from "react-router-dom";
 import LoadingSpinner from "../../../components/LoadingSpinner";
+import React from "react";
+import { Chart } from "react-google-charts";
 
 const EmployeeDetails = () => {
   const { email } = useParams();
   console.log(email);
 
   // get user
-  const {
-    data: user = [],
-    isLoading,
-    refetch,
-  } = useQuery({
+  const { data: user = [], isLoading: userIsLoading } = useQuery({
     queryKey: ["user"],
     queryFn: async () => {
-      const { data } = await axios(
+      const { data } = await axios.get(
         `${import.meta.env.VITE_API_URL}/users-details/${email}`
       );
       return data;
@@ -23,7 +21,47 @@ const EmployeeDetails = () => {
   });
   console.log(user);
 
-  if (isLoading) return <LoadingSpinner></LoadingSpinner>;
+  // get payments
+  const { data: payments = [], isLoading: paymentsIsLoading } = useQuery({
+    queryKey: ["payments-details", email],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/payment-details/${email}`
+      );
+      return data;
+    },
+  });
+  console.log("paymetssssss", payments);
+
+  const data = payments.map((payment) => {
+    const month = payment?.month;
+    const year = payment?.year;
+    const date = `${month}'${year}`;
+    const salary = parseInt(payment?.amount);
+    const data = [date, salary];
+    return data;
+  });
+
+  data.unshift(["Month & Year", "Salary"]);
+
+  // const data = [
+  //   ["Year", "Sales", "Expenses", "Profit"],
+  //   ["2014", 1000, 400, 200],
+  //   ["2015", 1170, 460, 250],
+  //   ["2016", 660, 1120, 300],
+  //   ["2017", 1030, 540, 350],
+  // ];
+
+  const options = {
+    chart: {
+      title: "Payment History",
+      subtitle: "Month, Year & Salary",
+    },
+  };
+
+  console.log(data);
+
+  if (userIsLoading || paymentsIsLoading) return <LoadingSpinner />;
 
   return (
     <div>
@@ -64,7 +102,15 @@ const EmployeeDetails = () => {
         </div>
         {/* chart */}
         <div>
-          <h1>chart here</h1>
+          <div className="w-[40%]">
+            <Chart
+              chartType="Bar"
+              width="100%"
+              height="400px"
+              data={data}
+              options={options}
+            />
+          </div>
         </div>
       </div>
     </div>
