@@ -14,6 +14,9 @@ import AllEmployeeList from "../pages/Dashboard/Admin/AllEmployeeList";
 import Message from "../pages/Dashboard/Admin/Message";
 import EmployeeDetails from "../pages/Dashboard/HR/EmployeeDetails";
 import UpdateProfile from "../pages/Dashboard/Common/UpdateProfile";
+import PrivateRoute from "./PrivateRoute";
+import AdminRoute from "./AdminRoute";
+import HrRoute from "./HrRoute";
 
 const router = createBrowserRouter([
   {
@@ -27,49 +30,95 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard",
-        element: <DashboardLayout></DashboardLayout>,
+        element: (
+          <PrivateRoute>
+            <DashboardLayout></DashboardLayout>
+          </PrivateRoute>
+        ),
         children: [
           {
             index: true,
-            element: <Profile></Profile>,
+            element: (
+              <PrivateRoute>
+                <Profile></Profile>
+              </PrivateRoute>
+            ),
           },
           {
             path: "update-profile/:email",
-            element: <UpdateProfile />,
+            element: (
+              <PrivateRoute>
+                <UpdateProfile />
+              </PrivateRoute>
+            ),
           },
           {
             path: "work-sheet",
-            element: <WorkSheet></WorkSheet>,
+            element: (
+              <PrivateRoute>
+                <WorkSheet></WorkSheet>
+              </PrivateRoute>
+            ),
           },
           {
             path: "payment-history",
-            element: <PaymentHistory></PaymentHistory>,
+            element: (
+              <PrivateRoute>
+                <PaymentHistory></PaymentHistory>
+              </PrivateRoute>
+            ),
           },
           {
             path: "employee-list",
-            element: <EmployeeList></EmployeeList>,
+            element: (
+              <PrivateRoute>
+                <HrRoute>
+                  <EmployeeList></EmployeeList>
+                </HrRoute>
+              </PrivateRoute>
+            ),
           },
 
           {
             path: "user-details/:email",
-            element: <EmployeeDetails></EmployeeDetails>,
-            // loader: ({ params }) =>
-            //   fetch(
-            //     `${import.meta.env.VITE_API_URL}/user-details/${params.email}`
-            //   ),
+            element: (
+              <PrivateRoute>
+                <HrRoute>
+                  <EmployeeDetails></EmployeeDetails>
+                </HrRoute>
+              </PrivateRoute>
+            ),
           },
 
           {
             path: "progress",
-            element: <Progress></Progress>,
+            element: (
+              <PrivateRoute>
+                <HrRoute>
+                  <Progress></Progress>
+                </HrRoute>
+              </PrivateRoute>
+            ),
           },
           {
             path: "all-employee-list",
-            element: <AllEmployeeList></AllEmployeeList>,
+            element: (
+              <PrivateRoute>
+                <AdminRoute>
+                  <AllEmployeeList></AllEmployeeList>
+                </AdminRoute>
+              </PrivateRoute>
+            ),
           },
           {
             path: "message",
-            element: <Message></Message>,
+            element: (
+              <PrivateRoute>
+                <AdminRoute>
+                  <Message></Message>
+                </AdminRoute>
+              </PrivateRoute>
+            ),
           },
         ],
       },
