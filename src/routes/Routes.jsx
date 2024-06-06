@@ -13,6 +13,7 @@ import Progress from "../pages/Dashboard/HR/Progress";
 import AllEmployeeList from "../pages/Dashboard/Admin/AllEmployeeList";
 import Message from "../pages/Dashboard/Admin/Message";
 import EmployeeDetails from "../pages/Dashboard/HR/EmployeeDetails";
+import UpdateProfile from "../pages/Dashboard/Common/UpdateProfile";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <Profile></Profile>,
+          },
+          {
+            path: "update-profile/:email",
+            element: <UpdateProfile />,
           },
           {
             path: "work-sheet",

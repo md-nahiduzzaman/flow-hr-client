@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useLoaderData, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import LoadingSpinner from "../../../components/LoadingSpinner";
-import React from "react";
+
 import { Chart } from "react-google-charts";
 
 const EmployeeDetails = () => {
