@@ -3,6 +3,7 @@ import axios from "axios";
 import { count } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
+import LoadingSpinner from "../../../components/LoadingSpinner";
 
 const PaymentHistory = () => {
   const { user } = useAuth();
@@ -17,7 +18,7 @@ const PaymentHistory = () => {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["payments", currentPage],
+    queryKey: ["payments", currentPage, itemsPerPage],
     queryFn: async () => {
       const { data } = await axios(
         `${
@@ -35,7 +36,7 @@ const PaymentHistory = () => {
   useEffect(() => {
     const getCount = async () => {
       const { data } = await axios(
-        `${import.meta.env.VITE_API_URL}/payments-count`
+        `${import.meta.env.VITE_API_URL}/payments-count?filter=${user?.email}`
       );
       setCount(data.count);
     };
@@ -51,6 +52,8 @@ const PaymentHistory = () => {
     console.log(value);
     setCurrentPage(value);
   };
+
+  if (isLoading) return <LoadingSpinner></LoadingSpinner>;
 
   return (
     <div>
