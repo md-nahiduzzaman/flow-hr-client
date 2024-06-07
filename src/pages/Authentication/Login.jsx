@@ -9,7 +9,7 @@ const Login = () => {
   const [registerError, setRegisterError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-  const { googleLogin, signInUser } = useAuth();
+  const { googleLogin, signInUser, saveUser, setLoading } = useAuth();
 
   //Email Password Sing in
   const handleSignIn = async (e) => {
@@ -69,6 +69,8 @@ const Login = () => {
   const handleGoogleSignIn = async () => {
     try {
       const result = await googleLogin();
+      console.log("fffffff", result);
+
       const { data } = await axios.post(
         `${import.meta.env.VITE_API_URL}/jwt`,
         {
@@ -77,6 +79,7 @@ const Login = () => {
         { withCredentials: true }
       );
       console.log(data);
+
       toast.success("Sign In Successful");
       navigate(location?.state || "/");
     } catch (err) {

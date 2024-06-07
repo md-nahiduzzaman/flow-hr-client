@@ -20,3 +20,12 @@ const useRole = () => {
 };
 
 export default useRole;
+
+// const { data: role = "", isLoading } = useQuery({
+//   queryKey: ["role", user?.email],
+//   enabled: !loading && !!user?.email,
+//   queryFn: async () => {
+//     const { data } = await axiosSecure(`/users/${user?.email}`);
+//     return data.role;
+//   },
+// });

@@ -7,8 +7,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import PaymentModal from "../../../components/Modal/PaymentModal";
 import PayModal from "../../../components/Modal/PayModal";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const EmployeeList = () => {
+  const axiosSecure = useAxiosSecure();
   // const [isOpen, setIsOpen] = useState(false);
 
   // const closeModal = () => {
@@ -61,8 +63,8 @@ const EmployeeList = () => {
     };
     console.log(verifiedData, id);
     try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_API_URL}/user-verified/${id}`,
+      const response = await axiosSecure.put(
+        `/user-verified-status/${id}`,
         verifiedData
       );
       refetch();

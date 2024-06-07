@@ -9,8 +9,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const CheckoutForm = ({ close, paymentInfo, refetch }) => {
+  const axiosSecure = useAxiosSecure();
   const stripe = useStripe();
   const elements = useElements();
   const { user } = useAuth();
@@ -142,10 +144,7 @@ const CheckoutForm = ({ close, paymentInfo, refetch }) => {
       console.log(paymentInfoData);
       // set payment info in payment history db
       try {
-        const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/payments`,
-          paymentInfoData
-        );
+        const response = await axiosSecure.post(`/payments`, paymentInfoData);
         console.log("data saved:", response.data);
         refetch();
         toast.success("Payment Successful");

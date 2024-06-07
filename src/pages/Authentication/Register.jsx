@@ -60,26 +60,36 @@ const Register = () => {
     try {
       setLoading(true);
       // img upload
-      const { data } = await axios.post(
+      const { data: imgData } = await axios.post(
         `https://api.imgbb.com/1/upload?key=${
           import.meta.env.VITE_IMGBB_API_KEY
         }`,
         formData
       );
-      console.log(data.data.display_url);
+      console.log(imgData.data.display_url);
 
       // registration
       const result = await createUser(email, password);
       console.log(result);
 
       // update profile
-      await updateUserProfile(name, data.data.display_url);
+      await updateUserProfile(name, imgData.data.display_url);
+
+      // jwt
+      const { data: jwtData } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/jwt`,
+        {
+          email: result?.user?.email,
+        },
+        { withCredentials: true }
+      );
+      console.log(jwtData);
 
       navigate(location?.state || "/");
       toast.success("Sign Up Successful");
 
       // save user data
-      const photo = data.data.display_url;
+      const photo = imgData.data.display_url;
       const userData = {
         name,
         email,
