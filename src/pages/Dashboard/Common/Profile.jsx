@@ -51,7 +51,7 @@ const Profile = () => {
 
           <div className="flex justify-end mt-4">
             <Link to={`update-profile/${user?.email}`}>
-              <button className="btn btn-xs">Details</button>
+              <button className="btn btn-xs">Edit Profile</button>
             </Link>
           </div>
         </div>

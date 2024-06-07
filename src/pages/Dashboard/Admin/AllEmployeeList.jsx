@@ -4,18 +4,19 @@ import LoadingSpinner from "../../../components/LoadingSpinner";
 import SalaryModal from "../../../components/Modal/SalaryModal";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const AllEmployeeList = () => {
+  const axiosSecure = useAxiosSecure();
+
   const {
     data: users = [],
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["users"],
+    queryKey: ["verified-user"],
     queryFn: async () => {
-      const { data } = await axios(
-        `${import.meta.env.VITE_API_URL}/users?verified=true`
-      );
+      const { data } = await axiosSecure.get(`/users-verified?verified=true`);
       return data;
     },
   });
@@ -37,10 +38,7 @@ const AllEmployeeList = () => {
     }
 
     try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_API_URL}/user-salary/${id}`,
-        salaryData
-      );
+      const response = await axiosSecure.put(`/user-salary/${id}`, salaryData);
       console.log("Salary updated:", response.data);
       refetch();
     } catch (err) {
@@ -60,10 +58,7 @@ const AllEmployeeList = () => {
 
     console.log(roleData, id);
     try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_API_URL}/user-role/${id}`,
-        roleData
-      );
+      const response = await axiosSecure.put(`/user-role/${id}`, roleData);
       console.log("Role updated:", response.data);
       refetch();
     } catch (err) {
@@ -87,10 +82,7 @@ const AllEmployeeList = () => {
 
     console.log(roleData, id);
     try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_API_URL}/user-status/${id}`,
-        roleData
-      );
+      const response = await axiosSecure.put(`/user-status/${id}`, roleData);
       console.log("Status updated:", response.data);
       refetch();
     } catch (err) {
