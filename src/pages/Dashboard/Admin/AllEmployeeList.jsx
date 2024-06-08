@@ -5,9 +5,17 @@ import SalaryModal from "../../../components/Modal/SalaryModal";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import FireModal from "../../../components/Modal/FireModal";
+import Swal from "sweetalert2";
 
 const AllEmployeeList = () => {
   const axiosSecure = useAxiosSecure();
+
+  // for delete modal
+  const [isOpen, setIsOpen] = useState(false);
+  const closeModal = () => {
+    setIsOpen(false);
+  };
 
   const {
     data: users = [],
@@ -81,24 +89,61 @@ const AllEmployeeList = () => {
     console.log(emailData);
 
     console.log(roleData, id);
-    try {
-      const response = await axiosSecure.put(`/user-status/${id}`, roleData);
-      console.log("Status updated:", response.data);
-      refetch();
-    } catch (err) {
-      console.log(err);
-    }
 
-    try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_API_URL}/block-user`,
-        emailData
-      );
-      console.log("block email", response.data);
-      refetch();
-    } catch (err) {
-      console.log(err);
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Fire",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await axiosSecure.put(
+            `/user-status/${id}`,
+            roleData
+          );
+          console.log("Status updated:", response.data);
+          toast.success("Fired Operation Successful");
+          refetch();
+        } catch (err) {
+          console.log(err);
+          toast.error(err?.message);
+        }
+
+        try {
+          const response = await axios.put(
+            `${import.meta.env.VITE_API_URL}/block-user`,
+            emailData
+          );
+          console.log("block email", response.data);
+          refetch();
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    });
+
+    // try {
+    //   const response = await axiosSecure.put(`/user-status/${id}`, roleData);
+    //   console.log("Status updated:", response.data);
+    //   refetch();
+    // } catch (err) {
+    //   console.log(err);
+    // }
+
+    // try {
+    //   const response = await axios.put(
+    //     `${import.meta.env.VITE_API_URL}/block-user`,
+    //     emailData
+    //   );
+    //   console.log("block email", response.data);
+    //   refetch();
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
   console.log(users);
