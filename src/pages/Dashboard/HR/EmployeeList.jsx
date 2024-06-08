@@ -114,14 +114,14 @@ const EmployeeList = () => {
                     {user?.verified ? (
                       <button
                         onClick={() => toggleVerified(user?._id)}
-                        className="btn btn-ghost btn-xs"
+                        className="btn btn-ghost btn-xs text-white bg-[#22303c] hover:bg-[#15202b]"
                       >
                         <FaCheck />
                       </button>
                     ) : (
                       <button
                         onClick={() => toggleVerified(user?._id)}
-                        className="btn btn-ghost btn-xs"
+                        className="btn btn-ghost btn-xs text-white bg-[#22303c] hover:bg-[#15202b]"
                       >
                         <FaXmark />
                       </button>
@@ -161,7 +161,9 @@ const EmployeeList = () => {
                   </td>
                   <td>
                     <Link to={`/dashboard/user-details/${user?.email}`}>
-                      <button className="btn btn-xs">Details</button>
+                      <button className="btn btn-xs text-white bg-[#22303c] hover:bg-[#15202b]">
+                        Details
+                      </button>
                     </Link>
                   </td>
                 </tr>

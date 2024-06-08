@@ -85,7 +85,10 @@ const Progress = () => {
               </select>
             </div>
             <div>
-              <button className="btn" onClick={handleReset}>
+              <button
+                className="btn text-white bg-[#22303c] hover:bg-[#15202b]"
+                onClick={handleReset}
+              >
                 Reset
               </button>
             </div>

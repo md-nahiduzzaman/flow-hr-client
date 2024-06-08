@@ -122,7 +122,7 @@ const Login = () => {
             {registerError && <p className="text-red-700">{registerError}</p>}
 
             <div className="mt-6">
-              <button className="btn w-full bg-[#59c6bc] text-white hover:bg-[#368880]">
+              <button className="btn w-full text-white bg-[#22303c] hover:bg-[#15202b] ">
                 Sign In
               </button>
             </div>

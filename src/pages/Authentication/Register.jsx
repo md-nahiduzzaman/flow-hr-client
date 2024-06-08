@@ -244,7 +244,7 @@ const Register = () => {
             <div className="mt-6">
               <button
                 disabled={loading}
-                className="btn w-full bg-[#59c6bc] text-white hover:bg-[#368880]"
+                className="btn w-full text-white bg-[#22303c] hover:bg-[#15202b]"
               >
                 {" "}
                 {loading ? (

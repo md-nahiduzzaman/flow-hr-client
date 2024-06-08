@@ -141,7 +141,10 @@ const WorkSheet = () => {
             </div>
             {/* btn */}
             <div className="mb-3">
-              <button className="btn "> Submit</button>
+              <button className="btn text-white bg-[#22303c] hover:bg-[#15202b]">
+                {" "}
+                Submit
+              </button>
             </div>
           </form>
         </div>

@@ -61,10 +61,14 @@ const Navbar = () => {
                   <>
                     <div className="flex gap-2 ">
                       <Link to="/login">
-                        <button className="btn ">Login</button>
+                        <button className="btn text-white bg-[#22303c] hover:bg-[#15202b]">
+                          Login
+                        </button>
                       </Link>
                       <Link to="/register">
-                        <button className="btn ">Register</button>
+                        <button className="btn text-white bg-[#22303c] hover:bg-[#15202b] ">
+                          Register
+                        </button>
                       </Link>
                     </div>
                   </>

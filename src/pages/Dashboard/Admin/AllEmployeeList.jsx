@@ -7,14 +7,17 @@ import toast from "react-hot-toast";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import FireModal from "../../../components/Modal/FireModal";
 import Swal from "sweetalert2";
+import { CiViewTable } from "react-icons/ci";
+import { IoGridOutline } from "react-icons/io5";
+import { BsListNested } from "react-icons/bs";
 
 const AllEmployeeList = () => {
   const axiosSecure = useAxiosSecure();
 
-  // for delete modal
-  const [isOpen, setIsOpen] = useState(false);
-  const closeModal = () => {
-    setIsOpen(false);
+  // toggle
+  const [cardView, setCardView] = useState(true);
+  const toggleView = async () => {
+    setCardView(!cardView);
   };
 
   const {
@@ -151,35 +154,171 @@ const AllEmployeeList = () => {
 
   return (
     <div>
-      <h1>this is all employee list</h1>
-      <div>
-        <div className="overflow-x-auto">
-          <table className="table">
-            {/* head */}
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Designation</th>
-                <th>Status</th>
-                <th>Salary</th>
-                <th>Make HR</th>
-                <th>Fire</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user._id}>
-                  <td>{user?.name}</td>
-                  <td>{user?.designation}</td>
-                  <td>{user?.verified ? "Verified" : "Not Verified"}</td>
-                  <td>
-                    <button className="btn btn-ghost btn-xs">
-                      {user?.salary}
-                    </button>
+      {/* card view */}
+      <div className="flex items-center gap-8 mb-10">
+        <h1 className="font-semibold text-xl">View:</h1>
+        <div>
+          {cardView ? (
+            <button onClick={() => toggleView()} className="btn ">
+              <IoGridOutline className="font-bold text-2xl" />
+            </button>
+          ) : (
+            <button onClick={() => toggleView()} className="btn ">
+              <CiViewTable className="font-bold text-2xl" />
+            </button>
+          )}
+        </div>
+      </div>
+      {cardView ? (
+        <>
+          {/* table */}
+          <div>
+            <div className="overflow-x-auto">
+              <table className="table">
+                {/* head */}
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Designation</th>
+                    <th>Status</th>
+                    <th>Salary</th>
+                    <th>Make HR</th>
+                    <th>Fire</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {users.map((user) => (
+                    <tr key={user._id}>
+                      <td>{user?.name}</td>
+                      <td>{user?.designation}</td>
+                      <td>{user?.verified ? "Verified" : "Not Verified"}</td>
+                      <td className="flex gap-2">
+                        <h1 className="">{user?.salary}</h1>
+                        {/* modal */}
+                        {/* Open the modal using document.getElementById('ID').showModal() method */}
+                        <button
+                          className="btn btn-xs text-white bg-[#22303c] hover:bg-[#15202b]"
+                          onClick={() =>
+                            document
+                              .getElementById(`my_modal_${user?._id}`)
+                              .showModal()
+                          }
+                        >
+                          Change salary
+                        </button>
+
+                        <dialog id={`my_modal_${user?._id}`} className="modal">
+                          <div className="modal-box flex flex-col items-center">
+                            <h3 className="font-bold text-lg">{user?.name}</h3>
+                            <p className="py-4">
+                              Present Salary: {user?.salary}
+                            </p>
+                            <div className="modal-action">
+                              <form
+                                onSubmit={(e) =>
+                                  handleSalarySubmit(e, user?._id, user?.salary)
+                                }
+                                method="dialog"
+                              >
+                                <div className="col-span-2 w-full">
+                                  <label className="form-control w-full">
+                                    <div className="label">
+                                      <span className="label-text">
+                                        New Salary
+                                      </span>
+                                    </div>
+                                    <input
+                                      type="number"
+                                      name="newSalary"
+                                      className="input input-bordered w-full"
+                                      required
+                                    />
+                                  </label>
+                                </div>
+                                {/* if there is a button in form, it will close the modal */}
+                                <button
+                                  onClick={() => document.closeModal()}
+                                  className="btn mt-5 w-full text-white bg-[#22303c] hover:bg-[#15202b]"
+                                >
+                                  Submit
+                                </button>
+                              </form>
+                            </div>
+                          </div>
+                        </dialog>
+
+                        {/* HR */}
+                      </td>
+                      <td>
+                        {user?.role === "HR" ? (
+                          "HR"
+                        ) : (
+                          <button
+                            onClick={() => handleMakeHR(user._id)}
+                            className="btn btn-ghost btn-xs"
+                            hidden={user?.role === "HR"}
+                          >
+                            Make HR
+                          </button>
+                        )}
+
+                        {/* <button
+                      onClick={() => handleMakeHR(user._id)}
+                      className="btn btn-ghost btn-xs"
+                      disabled={user?.role === "HR"}
+                    >
+                      {user?.role === "HR" ? "HR" : "Make HR"}
+                    </button> */}
+                        {/* HR */}
+                      </td>
+                      <td>
+                        {user?.status === "fired" ? (
+                          "Fired"
+                        ) : (
+                          <button
+                            onClick={() => handleMakeFire(user._id, user.email)}
+                            className="btn btn-xs text-white bg-[#22303c] hover:bg-[#15202b]"
+                            hidden={user?.status === "working"}
+                          >
+                            Fire
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {users.map((user) => (
+              <div
+                key={user._id}
+                className="w-full max-w-sm px-4 py-6 bg-white rounded-md shadow-md"
+              >
+                <h1 className="mt-2 text-lg font-semibold text-gray-800">
+                  Name: {user?.name}
+                </h1>
+                <div className="flex flex-row gap-8">
+                  <h1 className="mt-2 text-sm text-gray-600 ">
+                    Designation: {user?.designation}
+                  </h1>
+                  <h1 className="mt-2 text-sm text-gray-600 ">
+                    Status: {user?.verified ? "Verified" : "Not Verified"}
+                  </h1>
+                </div>
+
+                <h1 className="mt-2 text-sm text-gray-600 mb-2 ">
+                  Salary: {user?.salary}
+                  <span>
+                    {" "}
                     {/* modal */}
                     {/* Open the modal using document.getElementById('ID').showModal() method */}
                     <button
-                      className="btn btn-xs"
+                      className="btn btn-xs text-white bg-[#22303c] hover:bg-[#15202b]"
                       onClick={() =>
                         document
                           .getElementById(`my_modal_${user?._id}`)
@@ -188,7 +327,6 @@ const AllEmployeeList = () => {
                     >
                       Change salary
                     </button>
-
                     <dialog id={`my_modal_${user?._id}`} className="modal">
                       <div className="modal-box flex flex-col items-center">
                         <h3 className="font-bold text-lg">{user?.name}</h3>
@@ -216,7 +354,7 @@ const AllEmployeeList = () => {
                             {/* if there is a button in form, it will close the modal */}
                             <button
                               onClick={() => document.closeModal()}
-                              className="btn mt-5 w-full"
+                              className="btn mt-5 w-full text-white bg-[#22303c] hover:bg-[#15202b]"
                             >
                               Submit
                             </button>
@@ -224,50 +362,41 @@ const AllEmployeeList = () => {
                         </div>
                       </div>
                     </dialog>
-
-                    {/* HR */}
-                  </td>
-                  <td>
+                  </span>
+                </h1>
+                <div className="mt-4 flex flex-row gap-4">
+                  <div>
                     {user?.role === "HR" ? (
                       "HR"
                     ) : (
                       <button
                         onClick={() => handleMakeHR(user._id)}
-                        className="btn btn-ghost btn-xs"
+                        className="btn  btn-xs text-white bg-[#22303c] hover:bg-[#15202b]"
                         hidden={user?.role === "HR"}
                       >
                         Make HR
                       </button>
                     )}
-
-                    {/* <button
-                      onClick={() => handleMakeHR(user._id)}
-                      className="btn btn-ghost btn-xs"
-                      disabled={user?.role === "HR"}
-                    >
-                      {user?.role === "HR" ? "HR" : "Make HR"}
-                    </button> */}
-                    {/* HR */}
-                  </td>
-                  <td>
+                  </div>
+                  <div>
                     {user?.status === "fired" ? (
                       "Fired"
                     ) : (
                       <button
                         onClick={() => handleMakeFire(user._id, user.email)}
-                        className="btn btn-ghost btn-xs"
+                        className="btn btn-xs text-white bg-[#22303c] hover:bg-[#15202b] "
                         hidden={user?.status === "working"}
                       >
                         Fire
                       </button>
                     )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };
