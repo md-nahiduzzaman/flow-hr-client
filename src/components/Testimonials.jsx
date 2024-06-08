@@ -28,6 +28,7 @@ const Testimonials = () => {
     <div>
       <div className="container mx-auto px-2">
         <div className="container p-4 mx-auto my-6 space-y-1 text-center flex flex-col items-center justify-center">
+          <h2 className="pb-3 text-base font-medium md:text-xl">Testimonial</h2>
           <h2 className="pb-3 text-3xl font-bold md:text-4xl">
             What Our Clients Say
           </h2>

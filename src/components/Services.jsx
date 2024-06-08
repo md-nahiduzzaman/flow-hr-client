@@ -6,9 +6,11 @@ const Services = () => {
       <Container></Container>
       <div>
         <div className="container p-4 mx-auto my-6 space-y-1 text-center flex flex-col items-center justify-center">
+          <h2 className="pb-3 text-base font-medium md:text-xl">Services</h2>
           <h2 className="pb-3 text-3xl font-bold md:text-4xl">
             Comprehensive HR Solutions Tailored <br /> to Your Needs
           </h2>
+
           <p className="lg:w-[60%] text-center mt-8">
             We are dedicated to providing exceptional HR services that support
             your business growth and enhance employee satisfaction. Our

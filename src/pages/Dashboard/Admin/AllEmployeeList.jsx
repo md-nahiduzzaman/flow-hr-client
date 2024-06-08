@@ -45,8 +45,8 @@ const AllEmployeeList = () => {
       console.log(err);
     }
     // close modal
-    // const modal = document.getElementById(`my_modal_${id}`);
-    // modal.close();
+    const modal = document.getElementById(`my_modal_${id}`);
+    modal.close();
   };
 
   // role change
