@@ -12,7 +12,7 @@ const About = () => {
             data-aos-duration="1000"
           />
           <div data-aos="fade-left" data-aos-duration="1000">
-            <h2 className="pb-3 text-base font-medium md:text-xl">Services</h2>
+            <h2 className="pb-3 text-base font-medium md:text-xl">About Us</h2>
             <h2 className="text-4xl font-bold ">
               Committed to Excellence in <br /> HR Solutions
             </h2>

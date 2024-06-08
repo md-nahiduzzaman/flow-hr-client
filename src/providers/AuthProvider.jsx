@@ -125,18 +125,21 @@ const AuthProvider = ({ children }) => {
   // };
 
   // save user
-  const saveUser = async (user) => {
-    const currentUser = {
-      email: user.email,
-      name: user.displayName,
-      role: "Employee",
-      verified: false,
-    };
-    const { data } = await axios.put(
-      `${import.meta.env.VITE_API_URL}/user`,
-      currentUser
-    );
-    return data;
+  const saveUser = async (user, providerId) => {
+    if (providerId === googleProvider.providerId) {
+      const currentUser = {
+        email: user.email,
+        name: user.displayName,
+        role: "Employee",
+
+        verified: false,
+      };
+      const { data } = await axios.put(
+        `${import.meta.env.VITE_API_URL}/user`,
+        currentUser
+      );
+      return data;
+    }
   };
 
   //user observer
@@ -144,7 +147,8 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       if (currentUser) {
-        saveUser(currentUser);
+        const providerId = currentUser.providerData[0]?.providerId;
+        saveUser(currentUser, providerId);
       }
       console.log("CurrentUser:", currentUser);
       setLoading(false);

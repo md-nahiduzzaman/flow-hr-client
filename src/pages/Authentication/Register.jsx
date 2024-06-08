@@ -85,7 +85,7 @@ const Register = () => {
       );
       console.log(jwtData);
 
-      navigate(location?.state || "/");
+      navigate("/");
       toast.success("Sign Up Successful");
 
       // save user data
@@ -119,9 +119,9 @@ const Register = () => {
         },
         { withCredentials: true }
       );
-      console.log(data);
+      console.log("gooooglel data", result);
       toast.success("Sign In Successful");
-      navigate(location?.state || "/");
+      navigate("/");
     } catch (err) {
       console.log(err);
       toast.error(err?.message);

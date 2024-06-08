@@ -48,19 +48,19 @@ const Testimonials = () => {
               modules={[Navigation]}
               className="mySwiper"
             >
-              {testimonials.map((item) => (
+              {testimonials.map((testimonial) => (
                 <>
-                  <SwiperSlide key={item._id}>
+                  <SwiperSlide key={testimonial._id}>
                     <div className="flex flex-col items-center mx-16">
                       <Rating
                         style={{ maxWidth: 150 }}
-                        value={item.rating}
+                        value={testimonial.rating}
                         readOnly
                       />
                       <p className="font-medium md:text-2xl md:font-bold md:w-[70%] text-center mt-4">
-                        {item.details}
+                        {testimonial.details}
                       </p>
-                      <p className="md:text-xl mt-4">{item.name}</p>
+                      <p className="md:text-xl mt-4">{testimonial.name}</p>
                     </div>
                   </SwiperSlide>
                 </>

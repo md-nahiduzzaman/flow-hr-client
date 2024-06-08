@@ -81,7 +81,7 @@ const Login = () => {
       console.log(data);
 
       toast.success("Sign In Successful");
-      navigate(location?.state || "/");
+      navigate("/");
     } catch (err) {
       console.log(err);
       toast.error(err?.message);
