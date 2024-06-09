@@ -24,11 +24,11 @@ const NewsLetter = () => {
                 <input
                   type="text"
                   placeholder="example@email.com"
-                  className="w-3/5 p-3  sm:w-2/3"
+                  className="w-3/5 p-3  sm:w-2/3 rounded-lg"
                 />
                 <button
                   type="button"
-                  className="w-2/5 p-3 font-semibold btn sm:w-1/3 text-black rounded-none border-none "
+                  className="w-2/5 ml-5 p-3 font-semibold btn bg-gray-800 sm:w-1/3 text-white hover:bg-gray-950 border-none rounded-lg "
                 >
                   Subscribe
                 </button>

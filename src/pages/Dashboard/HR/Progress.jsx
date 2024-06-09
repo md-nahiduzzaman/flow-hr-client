@@ -35,11 +35,11 @@ const Progress = () => {
 
   return (
     <div>
-      <h1>this is progress</h1>
+      <h1 className="font-bold text-2xl mb-8">Progress</h1>
       {/* filter */}
       <div>
         <div className="flex flex-col md:flex-row items-center justify-center gap-3 mb-11">
-          <div className="flex gap-10 items-center">
+          <div className="flex gap-2 items-center">
             <h1>Filter Your Data</h1>
             {/*   Name */}
             <div>

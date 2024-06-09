@@ -30,6 +30,11 @@ const Login = () => {
         "Your password should have at least one upper case characters."
       );
       return;
+    } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(pass)) {
+      setRegisterError(
+        "Your password should have at least one special character."
+      );
+      return;
     }
 
     try {
@@ -105,6 +110,7 @@ const Login = () => {
                 type="email"
                 name="email"
                 className="input input-bordered  block w-full px-4 py-2 mt-2"
+                required
               />
             </div>
 
@@ -117,6 +123,7 @@ const Login = () => {
                 type="password"
                 name="password"
                 className="input input-bordered  block w-full px-4 py-2 mt-2"
+                required
               />
             </div>
             {registerError && <p className="text-red-700">{registerError}</p>}
@@ -159,7 +166,7 @@ const Login = () => {
 
           <p className="mt-8 text-xs font-light text-center text-gray-400">
             {" "}
-            Don't have an account?{" "}
+            Do not have an account?{" "}
             <Link to="/register">
               <span className="underline underline-offset-2 ">Register</span>{" "}
             </Link>

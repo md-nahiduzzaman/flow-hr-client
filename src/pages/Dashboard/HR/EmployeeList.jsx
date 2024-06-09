@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import PaymentModal from "../../../components/Modal/PaymentModal";
 import PayModal from "../../../components/Modal/PayModal";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import toast from "react-hot-toast";
 
 const EmployeeList = () => {
   const axiosSecure = useAxiosSecure();
@@ -54,19 +55,21 @@ const EmployeeList = () => {
   console.log(users);
 
   // toggle
-  const [verified, setVerified] = useState(false);
-  const toggleVerified = async (id) => {
-    setVerified(!verified);
+  // const [verified, setVerified] = useState(false);
+  const toggleVerified = async (id, currentStatus) => {
+    // setVerified(!verified);
 
     const verifiedData = {
-      verified,
+      verified: !currentStatus,
     };
     console.log(verifiedData, id);
+
     try {
       const response = await axiosSecure.put(
         `/user-verified-status/${id}`,
         verifiedData
       );
+      toast.success("Verified Successful");
       refetch();
       console.log("verified updated:", response.data);
     } catch (err) {
@@ -88,7 +91,7 @@ const EmployeeList = () => {
 
   return (
     <div>
-      <h1>employee list</h1>
+      <h1 className="font-bold text-2xl mb-8">Employee List</h1>
       <div>
         <div className="overflow-x-auto">
           <table className="table">
@@ -113,15 +116,19 @@ const EmployeeList = () => {
                   <td>
                     {user?.verified ? (
                       <button
-                        onClick={() => toggleVerified(user?._id)}
-                        className="btn btn-ghost btn-xs text-white bg-[#22303c] hover:bg-[#15202b]"
+                        onClick={() =>
+                          toggleVerified(user?._id, user?.verified)
+                        }
+                        className="btn btn-ghost btn-xs text-white bg-green-800 hover:bg-[#15202b]"
                       >
                         <FaCheck />
                       </button>
                     ) : (
                       <button
-                        onClick={() => toggleVerified(user?._id)}
-                        className="btn btn-ghost btn-xs text-white bg-[#22303c] hover:bg-[#15202b]"
+                        onClick={() =>
+                          toggleVerified(user?._id, user?.verified)
+                        }
+                        className="btn btn-ghost btn-xs text-white bg-red-800 hover:bg-[#15202b]"
                       >
                         <FaXmark />
                       </button>

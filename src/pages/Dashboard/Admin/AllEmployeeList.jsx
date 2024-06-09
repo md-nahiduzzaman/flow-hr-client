@@ -51,6 +51,7 @@ const AllEmployeeList = () => {
     try {
       const response = await axiosSecure.put(`/user-salary/${id}`, salaryData);
       console.log("Salary updated:", response.data);
+      toast.success("Successfully Change Salary");
       refetch();
     } catch (err) {
       console.log(err);
@@ -71,6 +72,7 @@ const AllEmployeeList = () => {
     try {
       const response = await axiosSecure.put(`/user-role/${id}`, roleData);
       console.log("Role updated:", response.data);
+      toast.success("Successfully Make HR");
       refetch();
     } catch (err) {
       console.log(err);
@@ -155,7 +157,7 @@ const AllEmployeeList = () => {
   return (
     <div>
       {/* card view */}
-      <div className="flex items-center gap-8 mb-10">
+      <div className="flex items-center gap-8 mb-6">
         <h1 className="font-semibold text-xl">View:</h1>
         <div>
           {cardView ? (
@@ -168,6 +170,9 @@ const AllEmployeeList = () => {
             </button>
           )}
         </div>
+      </div>
+      <div>
+        <h1 className="font-bold text-2xl mb-8">Employee List</h1>
       </div>
       {cardView ? (
         <>
@@ -192,7 +197,7 @@ const AllEmployeeList = () => {
                       <td>{user?.name}</td>
                       <td>{user?.designation}</td>
                       <td>{user?.verified ? "Verified" : "Not Verified"}</td>
-                      <td className="flex gap-2">
+                      <td className="flex flex-col sm:flex-row gap-2">
                         <h1 className="">{user?.salary}</h1>
                         {/* modal */}
                         {/* Open the modal using document.getElementById('ID').showModal() method */}
@@ -255,7 +260,7 @@ const AllEmployeeList = () => {
                         ) : (
                           <button
                             onClick={() => handleMakeHR(user._id)}
-                            className="btn btn-ghost btn-xs"
+                            className="btn btn-ghost btn-xs text-white bg-[#22303c] hover:bg-[#15202b]"
                             hidden={user?.role === "HR"}
                           >
                             Make HR

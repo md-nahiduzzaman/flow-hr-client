@@ -16,7 +16,7 @@ const Message = () => {
 
   return (
     <div>
-      <h1>this is message</h1>
+      <h1 className="font-bold text-2xl mb-8">Messages</h1>
       <div>
         <div className="overflow-x-auto">
           <table className="table">

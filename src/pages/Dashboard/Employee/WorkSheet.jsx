@@ -6,6 +6,7 @@ import useAuth from "../../../hooks/useAuth";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../../components/LoadingSpinner";
+import toast from "react-hot-toast";
 
 const WorkSheet = () => {
   const [startDate, setStartDate] = useState(new Date());
@@ -60,9 +61,11 @@ const WorkSheet = () => {
         workData
       );
       console.log("work updated:", response.data);
+      toast.success("Add Successful");
       refetch();
     } catch (err) {
       console.log(err);
+      toast.success("Something wrong");
     }
   };
 
@@ -99,7 +102,7 @@ const WorkSheet = () => {
           </div>
           <form
             onSubmit={(e) => handleWorkSubmit(e)}
-            className="flex flex-row items-end gap-9 mt-4 "
+            className="flex flex-col lg:flex-row items-start lg:items-end  gap-4 mt-4 "
           >
             {/* task */}
             <div className="mb-3">

@@ -119,7 +119,8 @@ const Register = () => {
         },
         { withCredentials: true }
       );
-      console.log("gooooglel data", result);
+      console.log(data);
+      console.log(result);
       toast.success("Sign In Successful");
       navigate("/");
     } catch (err) {

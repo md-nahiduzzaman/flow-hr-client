@@ -20,9 +20,9 @@ const Sidebar = () => {
   return (
     <>
       {/* small screen nav */}
-      <div className="bg-gray-100 text-gray-800 flex justify-between md:hidden">
+      <div className="bg-gray-100 text-gray-800 flex items-center justify-between md:hidden">
         <div>
-          <h1>Dashboard</h1>
+          <h1 className="text-xl font-semibold ml-4">Dashboard</h1>
         </div>
         <button
           onClick={handleToggle}
@@ -39,9 +39,7 @@ const Sidebar = () => {
         } md:translate-x-0`}
       >
         <div>
-          <div>
-            <h1>Dashboard</h1>
-          </div>
+          <div></div>
           {/* nav item */}
           <div className="flex flex-col flex-1 mt-8">
             <nav>
