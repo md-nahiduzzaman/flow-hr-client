@@ -72,7 +72,7 @@ const EmployeeDetails = () => {
             <img
               src={user?.photo}
               alt=""
-              className="object-cover rounded-full object-center w-full h-full rounded dark:bg-gray-500"
+              className="object-cover rounded-full object-center w-full h-full dark:bg-gray-500"
             />
           </div>
           <div className="flex flex-col">
