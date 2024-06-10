@@ -1,15 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import LoadingSpinner from "../../../components/LoadingSpinner";
-import SalaryModal from "../../../components/Modal/SalaryModal";
+
 import { useState } from "react";
 import toast from "react-hot-toast";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import FireModal from "../../../components/Modal/FireModal";
+
 import Swal from "sweetalert2";
 import { CiViewTable } from "react-icons/ci";
 import { IoGridOutline } from "react-icons/io5";
-import { BsListNested } from "react-icons/bs";
 
 const AllEmployeeList = () => {
   const axiosSecure = useAxiosSecure();
