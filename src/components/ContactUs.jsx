@@ -5,6 +5,7 @@ import {
 } from "react-icons/io5";
 import Container from "./Container";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const ContactUs = () => {
   const handleSubmit = async (e) => {
@@ -27,6 +28,7 @@ const ContactUs = () => {
         messageData
       );
       console.log("messages:", response.data);
+      toast.success("Message send");
     } catch (err) {
       console.log(err);
     }

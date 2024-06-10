@@ -185,7 +185,7 @@ const AllEmployeeList = () => {
                   <tr>
                     <th>Name</th>
                     <th>Designation</th>
-                    <th>Status</th>
+                    {/* <th>Status</th> */}
                     <th>Salary</th>
                     <th>Make HR</th>
                     <th>Fire</th>
@@ -196,7 +196,7 @@ const AllEmployeeList = () => {
                     <tr key={user._id}>
                       <td>{user?.name}</td>
                       <td>{user?.designation}</td>
-                      <td>{user?.verified ? "Verified" : "Not Verified"}</td>
+                      {/* <td>{user?.verified ? "Verified" : "Not Verified"}</td> */}
                       <td className="flex flex-col sm:flex-row gap-2">
                         <h1 className="">{user?.salary}</h1>
                         {/* modal */}
@@ -311,9 +311,9 @@ const AllEmployeeList = () => {
                   <h1 className="mt-2 text-sm text-gray-600 ">
                     Designation: {user?.designation}
                   </h1>
-                  <h1 className="mt-2 text-sm text-gray-600 ">
+                  {/* <h1 className="mt-2 text-sm text-gray-600 ">
                     Status: {user?.verified ? "Verified" : "Not Verified"}
-                  </h1>
+                  </h1> */}
                 </div>
 
                 <h1 className="mt-2 text-sm text-gray-600 mb-2 ">

@@ -7,7 +7,7 @@
 
 ## Live Site URL
 
-[FlowHR](https://flow-hr-bd0c8.web.app/)
+[https://flow-hr-bd0c8.web.app/](https://flow-hr-bd0c8.web.app/)
 
 ## Features
 

@@ -7,8 +7,10 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../../components/LoadingSpinner";
 import toast from "react-hot-toast";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const WorkSheet = () => {
+  const axiosSecure = useAxiosSecure();
   const [startDate, setStartDate] = useState(new Date());
   const { user } = useAuth();
   console.log(user);
@@ -56,10 +58,7 @@ const WorkSheet = () => {
     console.log(workData);
     // save data in db
     try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_API_URL}/work-sheet`,
-        workData
-      );
+      const response = await axiosSecure.put(`/work-sheet`, workData);
       console.log("work updated:", response.data);
       toast.success("Add Successful");
       refetch();
